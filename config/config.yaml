@@ -1,0 +1,170 @@
+# E-Commerce Analysis Configuration File
+# Last Updated: December 18, 2024
+
+# Project Metadata
+project:
+  name: "E-Commerce Sales Performance & Customer Behavior Analysis"
+  version: "1.0.0"
+  author: "Hamza Khan"
+  description: "Data-driven analysis of UK e-commerce retailer (Dec 2009 - Dec 2010)"
+
+# File Paths
+paths:
+  data:
+    raw: "data/raw_data.csv"
+    cleaned: "data/cleaned_data.csv"
+    customer: "data/customer_data.csv"
+    customer_metrics: "data/customer_metrics.csv"
+    product_metrics: "data/product_metrics.csv"
+    monthly_revenue: "data/monthly_revenue.csv"
+    country_metrics: "data/country_metrics.csv"
+    invoice_metrics: "data/invoice_metrics.csv"
+  
+  notebooks:
+    data_overview: "notebooks/01_data_overview.ipynb"
+    data_cleaning: "notebooks/02_data_cleaning.ipynb"
+    feature_engineering: "notebooks/03_feature_engineering.ipynb"
+    eda: "notebooks/04_exploratory_data_analysis.ipynb"
+    insights: "notebooks/05_insights_and_recommendations.ipynb"
+  
+  docs:
+    data_dictionary: "docs/data_dictionary.md"
+    data_quality: "docs/data_quality_report.md"
+    implementation_plan: "docs/implementation_plan.md"
+  
+  output:
+    charts: "docs/charts/"
+    reports: "docs/reports/"
+    models: "models/"
+
+# Data Parameters
+data_params:
+  # Date range
+  start_date: "2009-12-01"
+  end_date: "2010-12-09"
+  
+  # Data quality thresholds
+  quality:
+    min_retention_rate: 0.90  # Minimum 90% data retention after cleaning
+    max_missing_rate: 0.25    # Maximum 25% missing values per column
+    
+  # Business rules
+  business_rules:
+    cancelled_invoice_prefix: "C"
+    min_quantity: 1
+    min_unit_price: 0.01
+    max_unit_price: 100000
+  
+  # Analysis date (for recency calculations)
+  analysis_date: "2010-12-09"
+
+# Feature Engineering Parameters
+feature_params:
+  # RFM Segmentation
+  rfm:
+    r_bins: [0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    f_bins: [0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    m_bins: [0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    
+    # Segment definitions
+    segments:
+      champions:
+        r_min: 4
+        f_min: 4
+        m_min: 4
+      loyal_customers:
+        r_min: 3
+        f_min: 3
+        m_min: 3
+      potential_loyalists:
+        r_min: 3
+        f_min: 2
+        m_min: 2
+      at_risk:
+        r_min: 2
+        f_min: 2
+        m_min: 2
+      lost_customers:
+        r_max: 1
+  
+  # Date components to extract
+  date_features:
+    - year
+    - month
+    - day
+    - hour
+    - dayofweek
+    - quarter
+
+# Visualization Parameters
+viz_params:
+  # Figure size (width, height)
+  figsize:
+    default: [12, 6]
+    large: [14, 8]
+    small: [10, 5]
+  
+  # Color palettes
+  colors:
+    primary: "#2E86AB"
+    secondary: "#A23B72"
+    success: "#1a9641"
+    warning: "#fdae61"
+    danger: "#d7191c"
+    
+  # Chart styling
+  style: "seaborn-v0_8-darkgrid"
+  dpi: 300
+  
+  # Top N for charts
+  top_n:
+    products: 10
+    customers: 10
+    countries: 10
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan> - <level>{message}</level>"
+  log_file: "logs/analysis.log"
+  rotation: "10 MB"
+  retention: "30 days"
+
+# Model Parameters (for future predictive models)
+model_params:
+  # Churn prediction
+  churn:
+    features:
+      - Recency_Days
+      - TotalOrders
+      - CustomerLifetimeValue
+      - AvgBasketValue
+      - PurchaseFrequency
+    test_size: 0.2
+    random_state: 42
+  
+  # CLV forecasting
+  clv:
+    features:
+      - TotalOrders
+      - AvgBasketValue
+      - CustomerTenure_Days
+    algorithm: "linear_regression"
+
+# Database Configuration (if using SQL)
+database:
+  enabled: false
+  type: "sqlite"  # sqlite, postgresql, mysql
+  path: "data/ecommerce.db"
+  # Connection string example
+  # connection_string: "postgresql://user:password@localhost:5432/ecommerce"
+
+# Export Settings
+export:
+  formats:
+    - csv
+    - excel
+  excel_sheet_names:
+    customer_metrics: "Customer Metrics"
+    product_metrics: "Product Metrics"
+    monthly_revenue: "Monthly Revenue"

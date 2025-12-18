@@ -1,0 +1,27 @@
+name: ecommerce-analysis
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pandas=2.0.3
+  - numpy=1.24.3
+  - matplotlib=3.7.2
+  - seaborn=0.12.2
+  - jupyter=1.0.0
+  - notebook=7.0.2
+  - ipykernel=6.25.1
+  - pyyaml=6.0.1
+  - pytest=7.4.2
+  - black=23.9.1
+  - flake8=6.1.0
+  - isort=5.12.0
+  - tqdm=4.66.1
+  - python-dateutil=2.8.2
+  - openpyxl=3.1.2
+  - pip
+  - pip:
+      - great-expectations==0.17.23
+      - pandera==0.16.1
+      - loguru==0.7.2
+      - pytest-cov==4.1.0
